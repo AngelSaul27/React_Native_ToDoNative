@@ -1,20 +1,27 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { useState } from "react";
+import { View } from "react-native";
+import { StatusBar } from "expo-status-bar";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import { NavigationContainer } from "@react-navigation/native";
+import BottomTabNavigation from "./src/components/Navigation";
+import CustomDrawer from "./src/components/CustomDrawer";
 
 export default function App() {
+  const [isDrawerOpen, setDrawerOpen] = useState(false);
+
+  const openDrawer = () => { setDrawerOpen(true); };
+  const closeDrawer = () => { setDrawerOpen(false); };
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
+    <View style={{ flex: 1 }}>
+      <StatusBar style="light" />
+    
+      <SafeAreaProvider>
+        <NavigationContainer>
+          <BottomTabNavigation openDrawer={openDrawer} />
+          <CustomDrawer isOpen={isDrawerOpen} onClose={closeDrawer} />
+        </NavigationContainer>
+      </SafeAreaProvider>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
